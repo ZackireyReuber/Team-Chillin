@@ -13,10 +13,10 @@ import java.util.Scanner;
  */
 public class Player {
 
-    /** The color this player controls: "white" or "black". */
+    //this controls either white or black.
     private String color;
 
-    /** Shared scanner for reading console input. */
+    //Scanner for input
     private Scanner scanner;
 
     /**
