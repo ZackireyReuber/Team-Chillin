@@ -4,15 +4,11 @@ import utils.Position;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * Represents a King chess piece.
- * The king moves exactly one square in any direction.
- */
+//King piece moves one square any direction.
 public class King extends Piece {
 
     /**
      * Constructs a King with the given color and position.
-     *
      * @param color    "white" or "black"
      * @param position the starting position
      */
