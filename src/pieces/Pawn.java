@@ -4,17 +4,11 @@ import utils.Position;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * Represents a Pawn chess piece.
- * White pawns move up (increasing row); black pawns move down (decreasing row).
- * Pawns can move one square forward, two squares forward from their starting rank,
- * and capture diagonally one square forward.
- */
+//pawns can move two foward and can capture diag
 public class Pawn extends Piece {
 
     /**
      * Constructs a Pawn with the given color and starting position.
-     *
      * @param color    "white" or "black"
      * @param position the starting position of the pawn
      */
@@ -35,12 +29,12 @@ public class Pawn extends Piece {
         int direction = color.equals("white") ? 1 : -1;
         int startRow   = color.equals("white") ? 1 : 6;
 
-        // One square forward
+        // one
         Position oneStep = new Position(row + direction, col);
         if (oneStep.isValid() && board[oneStep.getRow()][oneStep.getCol()] == null) {
             moves.add(oneStep);
 
-            // Two squares forward from starting rank
+            // two
             if (row == startRow) {
                 Position twoStep = new Position(row + 2 * direction, col);
                 if (board[twoStep.getRow()][twoStep.getCol()] == null) {
