@@ -2,34 +2,18 @@ package board;
 
 import pieces.*;
 import utils.Position;
-
-/**
- * Represents the 8x8 chessboard.
- * Manages piece placement, movement, and console display.
- */
+//8x8 chess board
 public class Board {
-
-    /**
-     * The 8x8 grid of pieces. board[0][0] = A1, board[7][7] = H8.
-     * A null entry means the square is empty.
-     */
+   //a simple array to make the chess board
     private Piece[][] grid;
-
-    /**
-     * Constructs a Board and places all pieces in their standard starting positions.
-     */
+   //creates chess baord with original position
     public Board() {
         grid = new Piece[8][8];
         initialize();
     }
-
-    /**
-     * Places all chess pieces in their standard starting positions.
-     * White pieces occupy ranks 1 and 2 (rows 0 and 1).
-     * Black pieces occupy ranks 7 and 8 (rows 6 and 7).
-     */
+   //sets it all up
     public void initialize() {
-        // White back rank (row 0 = rank 1)
+        //first row for white
         grid[0][0] = new Rook("white",   new Position(0, 0));
         grid[0][1] = new Knight("white", new Position(0, 1));
         grid[0][2] = new Bishop("white", new Position(0, 2));
@@ -38,13 +22,11 @@ public class Board {
         grid[0][5] = new Bishop("white", new Position(0, 5));
         grid[0][6] = new Knight("white", new Position(0, 6));
         grid[0][7] = new Rook("white",   new Position(0, 7));
-
-        // White pawns (row 1 = rank 2)
+        // White pawns 
         for (int c = 0; c < 8; c++) {
             grid[1][c] = new Pawn("white", new Position(1, c));
         }
-
-        // Black pawns (row 6 = rank 7)
+        // Black pawns 
         for (int c = 0; c < 8; c++) {
             grid[6][c] = new Pawn("black", new Position(6, c));
         }
@@ -73,7 +55,6 @@ public class Board {
     /**
      * Moves a piece from one square to another.
      * Does not validate the legality of the move.
-     *
      * @param from the source position
      * @param to   the destination position
      */
@@ -85,16 +66,13 @@ public class Board {
             grid[from.getRow()][from.getCol()] = null;
         }
     }
-
     /**
      * Returns the raw 8x8 grid array, used by pieces to compute possible moves.
-     *
      * @return the internal board grid
      */
     public Piece[][] getGrid() {
         return grid;
     }
-
     /**
      * Prints the current state of the board to the console.
      * Ranks are displayed from 8 (top) to 1 (bottom).
@@ -105,7 +83,6 @@ public class Board {
         System.out.println();
         System.out.println("    A   B   C   D   E   F   G   H");
         System.out.println("  +---+---+---+---+---+---+---+---+");
-
         for (int row = 7; row >= 0; row--) {
             System.out.print((row + 1) + " |");
             for (int col = 0; col < 8; col++) {
@@ -119,7 +96,6 @@ public class Board {
             System.out.println(" " + (row + 1));
             System.out.println("  +---+---+---+---+---+---+---+---+");
         }
-
         System.out.println("    A   B   C   D   E   F   G   H");
         System.out.println();
     }
