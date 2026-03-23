@@ -1,14 +1,10 @@
 import game.Game;
 
-/**
- * Entry point for the Console Chess application.
- * Creates and starts a new game.
- */
+//starts the game, it is infact main.
 public class Main {
 
     /**
      * Main method — launches the chess game.
-     *
      * @param args command-line arguments (not used)
      */
     public static void main(String[] args) {
