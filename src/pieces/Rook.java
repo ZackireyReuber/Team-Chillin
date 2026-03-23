@@ -4,15 +4,11 @@ import utils.Position;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * Represents a Rook chess piece.
- * The rook moves any number of squares horizontally or vertically.
- */
+//Rook chess piece, horizontal movements only
 public class Rook extends Piece {
 
     /**
      * Constructs a Rook with the given color and position.
-     *
      * @param color    "white" or "black"
      * @param position the starting position
      */
