@@ -37,8 +37,10 @@ public class Game {
 
    //starts the game,
     public void start() {
+        System.out.println("========================================");
         System.out.println("       Welcome to Console Chess!        ");
         System.out.println("  Enter moves in format: E2 E4          ");
+        System.out.println("========================================");
         play();
     }
 
