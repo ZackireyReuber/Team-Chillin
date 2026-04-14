@@ -2,35 +2,23 @@ package gui;
 
 import java.awt.*;
 import javax.swing.*;
-
-/**
- * A modal dialog that allows players to customize the chessboard appearance.
- * Settings include light/dark square colors and board square size.
- */
 public class SettingsWindow extends JDialog {
 
-    /** Whether the user clicked Apply. */
     private boolean applied = false;
 
-    /** Selected light square color. */
     private Color lightColor;
 
-    /** Selected dark square color. */
     private Color darkColor;
 
-    /** Selected square size. */
     private int squareSize;
 
-    /** Preview panel showing what the board will look like. */
     private JPanel previewPanel;
 
     /**
-     * Constructs the settings dialog with current values pre-selected.
-     *
-     * @param parent     the parent JFrame
-     * @param lightColor current light square color
-     * @param darkColor  current dark square color
-     * @param squareSize current square size in pixels
+     * @param parent 
+     * @param lightColor 
+     * @param darkColor 
+     * @param squareSize 
      */
     public SettingsWindow(JFrame parent, Color lightColor, Color darkColor, int squareSize) {
         super(parent, "Board Settings", true);
@@ -45,8 +33,6 @@ public class SettingsWindow extends JDialog {
 
         JPanel controls = new JPanel(new GridLayout(0, 1, 6, 6));
         controls.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
-
-        // Light color
         JButton lightBtn = new JButton("Light Square Color");
         lightBtn.setBackground(lightColor);
         lightBtn.addActionListener(e -> {
@@ -55,8 +41,6 @@ public class SettingsWindow extends JDialog {
         });
         controls.add(new JLabel("Light Square Color:"));
         controls.add(lightBtn);
-
-        // Dark color
         JButton darkBtn = new JButton("Dark Square Color");
         darkBtn.setBackground(darkColor);
         darkBtn.setForeground(Color.WHITE);
@@ -66,8 +50,6 @@ public class SettingsWindow extends JDialog {
         });
         controls.add(new JLabel("Dark Square Color:"));
         controls.add(darkBtn);
-
-        // Board size
         controls.add(new JLabel("Board Square Size:"));
         String[] sizes = {"Small (60px)", "Medium (80px)", "Large (100px)"};
         JComboBox<String> sizeBox = new JComboBox<>(sizes);
@@ -77,8 +59,6 @@ public class SettingsWindow extends JDialog {
             this.squareSize = vals[sizeBox.getSelectedIndex()];
         });
         controls.add(sizeBox);
-
-        // Presets
         controls.add(new JLabel("Quick Presets:"));
         JPanel presets = new JPanel(new FlowLayout(FlowLayout.LEFT));
         JButton classic = new JButton("Classic");
@@ -110,8 +90,6 @@ public class SettingsWindow extends JDialog {
         controls.add(presets);
 
         add(controls, BorderLayout.WEST);
-
-        // Preview
         previewPanel = new JPanel() {
             @Override protected void paintComponent(Graphics g) {
                 super.paintComponent(g);
@@ -126,8 +104,6 @@ public class SettingsWindow extends JDialog {
         previewPanel.setPreferredSize(new Dimension(80, 80));
         previewPanel.setBorder(BorderFactory.createTitledBorder("Preview"));
         add(previewPanel, BorderLayout.CENTER);
-
-        // Buttons
         JPanel btnPanel = new JPanel(new FlowLayout(FlowLayout.RIGHT));
         JButton apply = new JButton("Apply");
         apply.setBackground(new Color(60, 140, 60));
@@ -139,17 +115,9 @@ public class SettingsWindow extends JDialog {
         btnPanel.add(apply);
         add(btnPanel, BorderLayout.SOUTH);
     }
-
-    /** Repaints the preview panel when colors change. */
     private void refreshPreview() { previewPanel.repaint(); }
-
-    /** @return true if the user clicked Apply */
     public boolean isApplied() { return applied; }
-
-    /** @return the selected light square color */
     public Color getLightColor() { return lightColor; }
-
-    /** @return the selected dark square color */
     public Color getDarkColor() { return darkColor; }
 
     /** @return the selected square size in pixels */
