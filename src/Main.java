@@ -1,18 +1,13 @@
-import game.Game;
-
-/**
- * Entry point for the Console Chess application.
- * Creates and starts a new game.
- */
+import gui.ChessGUI;
+import javax.swing.SwingUtilities;
 public class Main {
-
     /**
-     * Main method — launches the chess game.
-     *
-     * @param args command-line arguments (not used)
+     * @param args
      */
     public static void main(String[] args) {
-        Game game = new Game();
-        game.start();
+        SwingUtilities.invokeLater(() -> {
+            ChessGUI gui = new ChessGUI();
+            gui.setVisible(true);
+        });
     }
 }
