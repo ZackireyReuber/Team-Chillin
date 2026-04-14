@@ -4,15 +4,11 @@ import utils.Position;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * Represents a Bishop chess piece.
- * The bishop moves any number of squares diagonally.
- */
+//Bishop piece, can move diag directions.
 public class Bishop extends Piece {
 
     /**
      * Constructs a Bishop with the given color and position.
-     *
      * @param color    "white" or "black"
      * @param position the starting position
      */

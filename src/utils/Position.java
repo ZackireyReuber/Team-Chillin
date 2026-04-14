@@ -1,20 +1,16 @@
 package utils;
 
-/**
- * Represents a square on the chessboard using a row (1-8) and column (A-H).
- * Internally, row 0 = rank 1 and col 0 = file A.
- */
+//represents rows and columns.
 public class Position {
 
-    /** The row index (0-7), where 0 corresponds to rank 1. */
+    // The row index (0-7), where 0 corresponds to rank 1.
     private int row;
 
-    /** The column index (0-7), where 0 corresponds to file A. */
+    // The column index (0-7), where 0 corresponds to file A.
     private int col;
 
     /**
-     * Constructs a Position from zero-based row and column indices.
-     *
+     * Constructs a Position from zero-based row and columns.
      * @param row 0-7 (0 = rank 1)
      * @param col 0-7 (0 = file A)
      */
@@ -25,7 +21,6 @@ public class Position {
 
     /**
      * Parses a chess notation string like "E2" into a Position.
-     *
      * @param notation a two-character string (file letter + rank number), e.g. "E2"
      * @return the corresponding Position, or null if the format is invalid
      */
@@ -43,7 +38,6 @@ public class Position {
 
     /**
      * Converts this position back to standard chess notation (e.g., "E2").
-     *
      * @return the chess notation string
      */
     public String toNotation() {
@@ -52,15 +46,14 @@ public class Position {
         return "" + file + rank;
     }
 
-    /** @return the zero-based row index */
+    // @return the zero-based row index
     public int getRow() { return row; }
 
-    /** @return the zero-based column index */
+    // @return the zero-based column index 
     public int getCol() { return col; }
 
     /**
      * Checks whether this position falls within the 8x8 board boundaries.
-     *
      * @return true if the position is on the board
      */
     public boolean isValid() {

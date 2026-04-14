@@ -4,16 +4,11 @@ import utils.Position;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * Represents a Knight chess piece.
- * The knight moves in an L-shape: two squares in one direction and one square perpendicular.
- * Knights can jump over other pieces.
- */
+//Knight can jump in a L shape, will land where it is placed.
 public class Knight extends Piece {
 
     /**
      * Constructs a Knight with the given color and position.
-     *
      * @param color    "white" or "black"
      * @param position the starting position
      */
