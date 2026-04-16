@@ -2,21 +2,12 @@ package board;
 
 import pieces.*;
 import utils.Position;
-
 public class Board {
     private Piece[][] grid;
-
-//8x8 chess board
-public class Board {
-   //a simple array to make the chess board
-    private Piece[][] grid;
-   //creates chess baord with original position
-
     public Board() {
         grid = new Piece[8][8];
         initialize();
     }
-
 
     /**
      * @param grid the grid to restore from
@@ -25,11 +16,6 @@ public class Board {
         this.grid = grid;
     }
     public void initialize() {
-
-   //sets it all up
-    public void initialize() {
-        //first row for white
-
         grid[0][0] = new Rook("white",   new Position(0, 0));
         grid[0][1] = new Knight("white", new Position(0, 1));
         grid[0][2] = new Bishop("white", new Position(0, 2));
@@ -38,21 +24,8 @@ public class Board {
         grid[0][5] = new Bishop("white", new Position(0, 5));
         grid[0][6] = new Knight("white", new Position(0, 6));
         grid[0][7] = new Rook("white",   new Position(0, 7));
-
         for (int c = 0; c < 8; c++) grid[1][c] = new Pawn("white", new Position(1, c));
         for (int c = 0; c < 8; c++) grid[6][c] = new Pawn("black", new Position(6, c));
-
-        // White pawns 
-        for (int c = 0; c < 8; c++) {
-            grid[1][c] = new Pawn("white", new Position(1, c));
-        }
-        // Black pawns 
-        for (int c = 0; c < 8; c++) {
-            grid[6][c] = new Pawn("black", new Position(6, c));
-        }
-
-        // Black back rank (row 7 = rank 8)
-
         grid[7][0] = new Rook("black",   new Position(7, 0));
         grid[7][1] = new Knight("black", new Position(7, 1));
         grid[7][2] = new Bishop("black", new Position(7, 2));
@@ -70,13 +43,7 @@ public class Board {
     public Piece getPiece(Position position) {
         return grid[position.getRow()][position.getCol()];
     }
-
     /**
-
-
-     * Moves a piece from one square to another.
-     * Does not validate the legality of the move.
-
      * @param from the source position
      * @param to   the destination position
      */
@@ -89,10 +56,6 @@ public class Board {
         }
     }
     /**
-
-
-     * Returns the raw 8x8 grid array, used by pieces to compute possible moves.
-
      * @return the internal board grid
      */
     public Piece[][] getGrid() {
@@ -140,10 +103,6 @@ public class Board {
             System.out.println(" " + (row + 1));
             System.out.println("  +---+---+---+---+---+---+---+---+");
         }
-
         System.out.println("    A   B   C   D   E   F   G   H\n");
-
-        System.out.println("    A   B   C   D   E   F   G   H");
-        System.out.println();
     }
 }
