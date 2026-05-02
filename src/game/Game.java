@@ -1,104 +1,139 @@
 package game;
 
 import board.Board;
+import java.util.ArrayList;
+import java.util.List;
 import pieces.King;
 import pieces.Piece;
-
-import java.util.Scanner;
-
-//How the game works, player turns and such.
-public class Game {
-
-    // The chessboard for this game.
+import utils.Position;
     private Board board;
-
-    // The player controlling white pieces. 
-    private Player whitePlayer;
-
-    // The player controlling black pieces. 
-    private Player blackPlayer;
-
-    // The color whose turn it currently is: "white" or "black".
     private String currentTurn;
-
-    /** Shared console input scanner. */
-    private Scanner scanner;
-
-    /**
-     * Constructs a new Game, initializing the board and both players.
-     */
+    private boolean gameOver;
+    private String winner;
     public Game() {
-        scanner = new Scanner(System.in);
         board = new Board();
-        whitePlayer = new Player("white", scanner);
-        blackPlayer = new Player("black", scanner);
         currentTurn = "white";
+        gameOver = false;
+        winner = null;
     }
-
-   //starts the game,
-    public void start() {
-        System.out.println("========================================");
-        System.out.println("       Welcome to Console Chess!        ");
-        System.out.println("  Enter moves in format: E2 E4          ");
-        System.out.println("========================================");
-        play();
+    public Board getBoard() {
+        return board;
     }
-
-//how each turn runs, shows the board and then goes from there.
-    public void play() {
-        while (true) {
-            board.display();
-
-            // Check if a king is missing (captured) — simple end condition for Phase 1
-            if (!kingExists("white")) {
-                end("black");
-                return;
-            }
-            if (!kingExists("black")) {
-                end("white");
-                return;
-            }
-
-            // Get the current player's move
-            Player current = currentTurn.equals("white") ? whitePlayer : blackPlayer;
-            current.makeMove(board);
-
-            // Switch turns
-            currentTurn = currentTurn.equals("white") ? "black" : "white";
-        }
+    public String getCurrentTurn() {
+        return currentTurn;
     }
-
-    /**
-     * Ends the game and announces the winner or a draw.
-     * @param winner the color that won, or null for a draw
-     */
-    public void end(String winner) {
-        board.display();
-        System.out.println("========================================");
-        if (winner != null) {
-            System.out.println("  Game over! "
-                    + winner.substring(0, 1).toUpperCase() + winner.substring(1)
-                    + " wins!");
-        } else {
-            System.out.println("  Game over! It's a draw.");
-        }
-        System.out.println("========================================");
-        scanner.close();
+    public boolean isGameOver() {
+        return gameOver;
     }
-
-    /**
-     * checks the king to see if the game has ended.
-     * @param color "white" or "black"
-     * @return true if that color's king is present on the board
-     */
-    private boolean kingExists(String color) {
+    public String getWinner() {
+        return winner;
+    }
+    public void reset() {
+        board = new Board();
+        currentTurn = "white";
+        gameOver = false;
+        winner = null;
+    }
+    public void setCurrentTurn(String currentTurn) {
+        this.currentTurn = currentTurn;
+    }
+    public boolean isCheck(String color) {
+        return isKingInCheck(board, color);
+    }
+    public boolean hasLegalMoves(String color) {
         for (Piece[] row : board.getGrid()) {
             for (Piece piece : row) {
-                if (piece instanceof King && piece.getColor().equals(color)) {
-                    return true;
+                if (piece != null && piece.getColor().equals(color)) {
+                    List<Position> legal = getLegalDestinations(piece.getPosition(), color);
+                    if (!legal.isEmpty()) {
+                        return true;
+                    }
                 }
             }
         }
         return false;
+    }
+    public List<Position> getLegalDestinations(Position from) {
+        return getLegalDestinations(from, currentTurn);
+    }
+    private List<Position> getLegalDestinations(Position from, String turn) {
+        List<Position> legalMoves = new ArrayList<>();
+        Piece piece = board.getPiece(from);
+        if (piece == null || !piece.getColor().equals(turn)) {
+            return legalMoves;
+        }
+        List<Position> rawMoves = piece.possibleMoves(board.getGrid());
+        for (Position to : rawMoves) {
+            Board clone = new Board(board.copyGrid());
+            clone.movePiece(from, to);
+            if (!isKingInCheck(clone, turn)) {
+                legalMoves.add(to);
+            }
+        }
+        return legalMoves;
+    }
+    public boolean makeMove(Position from, Position to) {
+        if (gameOver) {
+            return false;
+        }
+        Piece piece = board.getPiece(from);
+        if (piece == null || !piece.getColor().equals(currentTurn)) {
+            return false;
+        }
+        List<Position> legal = getLegalDestinations(from);
+        if (!legal.contains(to)) {
+            return false;
+        }
+        Piece target = board.getPiece(to);
+        boolean kingCaptured = target instanceof King;
+        board.movePiece(from, to);
+        if (kingCaptured) {
+            gameOver = true;
+            winner = currentTurn;
+            return true;
+        }
+        String opponent = oppositeColor(currentTurn);
+        if (isKingInCheck(board, opponent) && !hasLegalMoves(opponent)) {
+            gameOver = true;
+            winner = currentTurn;
+            return true;
+        }
+        if (!isKingInCheck(board, opponent) && !hasLegalMoves(opponent)) {
+            gameOver = true;
+            winner = null; // stalemate
+            return true;
+        }
+
+        currentTurn = opponent;
+        return true;
+    }
+    private boolean isKingInCheck(Board boardState, String color) {
+        Position kingPosition = findKingPosition(boardState, color);
+        if (kingPosition == null) {
+            return false;
+        }
+        for (Piece[] row : boardState.getGrid()) {
+            for (Piece piece : row) {
+                if (piece != null && !piece.getColor().equals(color)) {
+                    if (piece.possibleMoves(boardState.getGrid()).contains(kingPosition)) {
+                        return true;
+                    }
+                }
+            }
+        }
+        return false;
+    }
+    private Position findKingPosition(Board boardState, String color) {
+        for (Piece[] row : boardState.getGrid()) {
+            for (Piece piece : row) {
+                if (piece instanceof King && piece.getColor().equals(color)) {
+                    return piece.getPosition();
+                }
+            }
+        }
+        return null;
+    }
+    private String oppositeColor(String color) {
+        return color.equals("white") ? "black" : "white";
     }
 }
