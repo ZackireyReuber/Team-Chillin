@@ -5,12 +5,9 @@ public class Position {
 
     // The row index (0-7), where 0 corresponds to rank 1.
     private int row;
-
     // The column index (0-7), where 0 corresponds to file A.
     private int col;
-
     /**
-     * Constructs a Position from zero-based row and columns.
      * @param row 0-7 (0 = rank 1)
      * @param col 0-7 (0 = file A)
      */
@@ -20,7 +17,6 @@ public class Position {
     }
 
     /**
-     * Parses a chess notation string like "E2" into a Position.
      * @param notation a two-character string (file letter + rank number), e.g. "E2"
      * @return the corresponding Position, or null if the format is invalid
      */
@@ -37,7 +33,6 @@ public class Position {
     }
 
     /**
-     * Converts this position back to standard chess notation (e.g., "E2").
      * @return the chess notation string
      */
     public String toNotation() {
@@ -59,14 +54,16 @@ public class Position {
     public boolean isValid() {
         return row >= 0 && row < 8 && col >= 0 && col < 8;
     }
-
     @Override
     public boolean equals(Object obj) {
         if (!(obj instanceof Position)) return false;
         Position other = (Position) obj;
         return this.row == other.row && this.col == other.col;
     }
-
+    @Override
+    public int hashCode() {
+        return 31 * row + col;
+    }
     @Override
     public String toString() {
         return toNotation();
