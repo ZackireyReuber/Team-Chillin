@@ -1,10 +1,10 @@
 package gui;
 
-import pieces.Piece;
-import javax.swing.*;
 import java.awt.*;
 import java.util.ArrayList;
 import java.util.List;
+import javax.swing.*;
+import pieces.Piece;
 public class HistoryPanel extends JPanel {
     private List<String> moves;
     private List<Piece[][]> boardStates;
@@ -68,6 +68,11 @@ public class HistoryPanel extends JPanel {
         updateDisplay();
         if (undoCallback != null) undoCallback.run();
     }
+
+    public int getMoveCount() {
+        return moves.size();
+    }
+
     public void clear() {
         moves.clear();
         boardStates.clear();
